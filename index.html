@@ -99,16 +99,19 @@ a { color:inherit; text-decoration:none; }
 .slider .card { display:none; min-height:300px; padding:4px; flex-direction:column; }
 .slider .card.active { display:flex; animation:cardIn .45s var(--ease) both; }
 @keyframes cardIn { from{opacity:0;transform:translateX(18px)} to{opacity:1;transform:none} }
-.slider-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 20px; padding:8px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.035); }
-.slider-nav-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 18px; border:1px solid rgba(255,255,255,.12); border-radius:99px; color:var(--muted); background:rgba(15,23,38,.6); cursor:pointer; font-weight:700; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; transition:all .3s var(--ease); box-shadow:0 4px 12px rgba(0,0,0,.1); }
-.slider-nav-btn:hover { color:var(--ink); transform:translateY(-2px); border-color:var(--cyan); background:rgba(110,231,249,.12); box-shadow:0 8px 24px rgba(28,174,211,.18); }
-.slider-nav-btn:active { transform:translateY(0); }
-.slider-nav-btn:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
-.slider-nav-btn svg { width:15px; height:15px; stroke:var(--cyan); transition:transform .3s var(--ease); }
-.slider-nav-btn[aria-label="Previous"]:hover svg { transform:translateX(-3px); }
-.slider-nav-btn[aria-label="Next"]:hover svg { transform:translateX(3px); }
-.slider-count { color:var(--muted); font:500 .74rem 'DM Mono',monospace; letter-spacing:.12em; white-space:nowrap; }
-.slider-count b { color:var(--cyan); font-weight:500; }
+.slider-nav { display:flex; justify-content:center; align-items:center; gap:18px; margin:0 0 22px; padding:0; border:0; background:none; }
+.slider-nav-btn { display:inline-flex; align-items:center; gap:10px; height:46px; padding:0 20px 0 8px; border:1px solid var(--line); border-radius:99px; color:var(--ink); background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02)); backdrop-filter:blur(10px); cursor:pointer; font-weight:700; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; transition:transform .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease); box-shadow:0 6px 18px rgba(0,0,0,.18); }
+.slider-nav-btn[aria-label="Next"] { padding:0 8px 0 20px; }
+.slider-nav-btn svg { flex:none; width:30px; height:30px; padding:7px; border-radius:50%; stroke:var(--cyan); background:rgba(110,231,249,.12); transition:transform .3s var(--ease), background .3s var(--ease), stroke .3s var(--ease); }
+.slider-nav-btn:hover { transform:translateY(-2px); border-color:rgba(110,231,249,.55); background:linear-gradient(180deg, rgba(110,231,249,.15), rgba(110,231,249,.04)); box-shadow:0 12px 28px rgba(28,174,211,.22); }
+.slider-nav-btn:hover svg { background:var(--cyan); stroke:#06121f; }
+.slider-nav-btn[aria-label="Previous"]:hover svg { transform:translateX(-2px); }
+.slider-nav-btn[aria-label="Next"]:hover svg { transform:translateX(2px); }
+.slider-nav-btn:active { transform:translateY(0) scale(.97); }
+.slider-nav-btn:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+.slider-count { min-width:0; text-align:center; color:var(--muted); font:500 .74rem 'DM Mono',monospace; letter-spacing:.14em; white-space:nowrap; }
+.slider-count b { color:var(--cyan); font-weight:500; font-size:1rem; }
+.slider-count::after { content:""; display:block; width:min(100%, 220px); height:4px; margin:10px auto 0; border-radius:99px; background-color:rgba(255,255,255,.1); background-image:linear-gradient(90deg, var(--cyan), var(--violet)); background-repeat:no-repeat; background-position:left center; background-size:calc(var(--progress, 0) * 100%) 100%; transition:background-size .5s var(--ease); }
 .card-header { display:flex; align-items:flex-start; gap:15px; margin-bottom:18px; }
 .card-icon { width:55px; height:55px; flex:0 0 55px; border:1px solid rgba(255,255,255,.2); border-radius:16px; object-fit:cover; box-shadow:0 10px 25px rgba(0,0,0,.3); }
 .title-container { min-width:0; }
@@ -142,7 +145,7 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
 .mobile-nav-menu { position:fixed; z-index:999; top:0; right:-330px; width:min(330px,88vw); height:100vh; display:flex; flex-direction:column; gap:7px; padding:90px 22px 22px; background:var(--glass-strong); border-left:1px solid var(--line); box-shadow:-30px 0 80px rgba(0,0,0,.4); visibility:hidden; transition:.4s var(--ease); }
 .mobile-nav-menu.active { right:0; visibility:visible; } .mobile-nav-menu .nav-item { text-align:left; padding:15px; } .mobile-close { position:absolute; top:23px; right:22px; border:0; color:var(--muted); background:none; font-size:2rem; cursor:pointer; }
 @media (max-width:900px) { .content-grid { grid-template-columns:1fr; } .nav-links { gap:0; } }
-@media (max-width:420px) { .slider-nav-btn { padding:9px 11px; letter-spacing:.03em; } }
+@media (max-width:520px) { .slider-nav { gap:12px; } .slider-nav-btn, .slider-nav-btn[aria-label="Next"] { height:44px; padding:0 7px; gap:0; font-size:0; } }
 @media (max-width:700px) { .navbar { padding:15px 18px; } .nav-links { display:none; } .hamburger { display:flex; flex-direction:column; } .container { padding-top:58px; } .page-header { margin-bottom:40px; } .page-header h1 { font-size:clamp(3rem,16vw,5rem); } .action-section,.content-column,.feedback-section { padding:20px; } .btn-group { flex-direction:column; } .action-btn { width:100%; } .social-links { gap:5px; } .slider { min-height:350px; } .slider .card { min-height:350px; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
 
@@ -209,8 +212,12 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
 
         <div class="social-links">
             <a href="mailto:devjk6918@gmail.com">Email</a>
-            <a href="https://gitlab.com/devjk6918" target="_blank">GitLab</a>
+            <a href="https://gitlab.com/ozler" target="_blank">GitLab</a>
+            <a href="https://v16.next.forgejo.org/ozler" target="_blank">Forgejo</a>
+            <a href="https://codeberg.org/ozler" target="_blank">Codeberg</a>
+            <a href="https://gitgud.io/ozler" target="_blank">GitGud</a>
             <a href="https://greasyfork.org/en/users/1553223-ozler365" target="_blank">GreasyFork</a>
+            <a href="https://openuserjs.org/users/ozler" target="_blank">OpenUserJS</a>
             <a href="https://addons.mozilla.org/en-US/firefox/user/19010700/" target="_blank">Firefox</a>
             <a href="https://www.instagram.com/weebtopia_official" target="_blank">Instagram</a>
             <a href="https://x.com/theweebtopia" target="_blank">X</a>
@@ -238,7 +245,6 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                 <h2 class="section-title">Extensions</h2>
                 <div class="slider-nav" data-slider="ext-slider">
                     <button type="button" class="slider-nav-btn" onclick="slide('ext-slider', -1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Previous</button>
-                    <div class="slider-count" aria-live="polite"><b>1</b> / 1</div>
                     <button type="button" class="slider-nav-btn" onclick="slide('ext-slider', 1)" aria-label="Next">Next <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
                 <div class="slider-wrapper">
@@ -264,9 +270,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         Firefox
                                     </a>
                                     <!-- TODO: add your GitLab link in the href below -->
-                                    <a href="#" target="_blank">
+                                    <a href="https://gitlab.com/ozler/universal-image-downloader-extension" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/universal-image-downloader-extension" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/universal-image-downloader-extension" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/universal-image-downloader-extension" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                 </div>
                             </div>
@@ -302,9 +320,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         Firefox
                                     </a>
                                     <!-- TODO: add your GitLab link in the href below -->
-                                    <a href="#" target="_blank">
+                                    <a href="https://gitlab.com/ozler/atsumaru-mangadot-mangago-comic-downloader-extension" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/atsumaru-mangadot-mangago-comic-downloader-extension" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/atsumaru-mangadot-mangago-comic-downloader-extension" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/atsumaru-mangadot-mangago-comic-downloader-extension" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                 </div>
                             </div>
@@ -317,7 +347,6 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                 <h2 class="section-title">Userscripts</h2>
                 <div class="slider-nav" data-slider="script-slider">
                     <button type="button" class="slider-nav-btn" onclick="slide('script-slider', -1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Previous</button>
-                    <div class="slider-count" aria-live="polite"><b>1</b> / 1</div>
                     <button type="button" class="slider-nav-btn" onclick="slide('script-slider', 1)" aria-label="Next">Next <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
                 <div class="slider-wrapper">
@@ -339,9 +368,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/universal-image-downloader-userscript" target="_blank">
+                                    <a href="https://gitlab.com/ozler/universal-image-downloader-userscript" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/universal-image-downloader-userscript" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/universal-image-downloader-userscript" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/universal-image-downloader-userscript" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Universal_Image_Downloader" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -376,9 +417,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                    <a href="https://gitlab.com/ozler/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Aggregator_Comic_Site_Chapter_Downloader(Atsumaru,_Mangadot,_MangaGo)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -419,9 +472,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Manga_Plus,Bookwalker,Manga-UP,Manga_Million,Gangan_Online_Zebcrack_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -459,9 +524,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                    <a href="https://gitlab.com/ozler/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/MangaPlaza,Comic_CmoA_Yomiho_CmoA_Ripper(ENG,JP)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -497,9 +574,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/manta-comic-ripper-eng-es-fr" target="_blank">
+                                    <a href="https://gitlab.com/ozler/manta-comic-ripper-eng-es-fr" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/manta-comic-ripper-eng-es-fr" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/manta-comic-ripper-eng-es-fr" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/manta-comic-ripper-eng-es-fr" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Manta_Comic_Ripper(ENG,ES,FR)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -535,9 +624,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/tappytoon-ripper-eng-fr-de" target="_blank">
+                                    <a href="https://gitlab.com/ozler/tappytoon-ripper-eng-fr-de" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/tappytoon-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/tappytoon-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/tappytoon-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Tappytoon_Ripper(ENG,FR,DE)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -573,9 +674,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/webcomics-chapter-ripper-all-languages" target="_blank">
+                                    <a href="https://gitlab.com/ozler/webcomics-chapter-ripper-all-languages" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/webcomics-chapter-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/webcomics-chapter-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/webcomics-chapter-ripper-all-languages" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/WebComics_Chapter_Ripper(All_Languages)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -611,9 +724,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/webnovel-comic-ripper-all-languages" target="_blank">
+                                    <a href="https://gitlab.com/ozler/webnovel-comic-ripper-all-languages" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/webnovel-comic-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/webnovel-comic-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/webnovel-comic-ripper-all-languages" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Webnovel_Comic_Ripper(All_Languages)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -649,9 +774,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/ridibooks-comic-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/ridibooks-comic-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/ridibooks-comic-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/ridibooks-comic-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/ridibooks-comic-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Ridibooks_Comic_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -687,9 +824,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/omoi-azuki-chapter-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/omoi-azuki-chapter-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/omoi-azuki-chapter-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/omoi-azuki-chapter-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/omoi-azuki-chapter-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/OmoiAzuki_Chapter_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -726,9 +875,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                    <a href="https://gitlab.com/ozler/comikey-ripper-manga-webtoon-eng-br" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Comikey_Ripper_(Manga_Webtoon)_ENG,BR" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -764,9 +925,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/kakaopage-comic-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/kakaopage-comic-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/kakaopage-comic-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/kakaopage-comic-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/kakaopage-comic-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/KakaoPage_Comic_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -806,9 +979,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                    <a href="https://gitlab.com/ozler/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/All_Lezhin,Beltoon,Bomtoon,Kakao-Webtoon,Mr-Blue,Toptoon(JP)_Ripper(All_Languages)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -844,9 +1029,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/kuaikan-manhua-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/kuaikan-manhua-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/kuaikan-manhua-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/kuaikan-manhua-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/kuaikan-manhua-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/KuaiKan_Manhua_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -883,9 +1080,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                    <a href="https://gitlab.com/ozler/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/J-Novel_Club_Chapter_Ripper(ENG,FR,DE)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -921,9 +1130,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/inkr-comics-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/inkr-comics-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/inkr-comics-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/inkr-comics-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/inkr-comics-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Inkr_Comics_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -967,9 +1188,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                    <a href="https://gitlab.com/ozler/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Tapas,Webtoon,Mangatoon,Toomics,Naver,Dongmanmanhua,Lalatoon,Honeytoon,Toptoon_Ripper(All_Languages)" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -1006,9 +1239,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/viz-shonen-jump-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/viz-shonen-jump-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/viz-shonen-jump-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/viz-shonen-jump-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/viz-shonen-jump-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/VizShonen_Jump_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -1044,9 +1289,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/toptoon-english-only-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/toptoon-english-only-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/toptoon-english-only-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/toptoon-english-only-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/toptoon-english-only-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Toptoon_English_Only_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -1082,9 +1339,21 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                                         <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
                                         GreasyFork
                                     </a>
-                                    <a href="https://gitlab.com/devjk6918/coolmic-chapter-ripper" target="_blank">
+                                    <a href="https://gitlab.com/ozler/coolmic-chapter-ripper" target="_blank">
                                         <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                                         GitLab
+                                    </a>
+                                    <a href="https://v16.next.forgejo.org/ozler/coolmic-chapter-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" class="link-icon">
+                                        Forgejo
+                                    </a>
+                                    <a href="https://codeberg.org/ozler/coolmic-chapter-ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" class="link-icon">
+                                        Codeberg
+                                    </a>
+                                    <a href="https://gitgud.io/ozler/coolmic-chapter-ripper" target="_blank">
+                                        <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" class="link-icon">
+                                        GitGud
                                     </a>
                                     <a href="https://openuserjs.org/scripts/ozler/Coolmic_Chapter_Ripper" target="_blank">
                                         <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
@@ -1115,9 +1384,9 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                         <label for="repoSelect">Which repository is this about?</label>
                         <select id="repoSelect">
                             <option value="" disabled selected>Select an option...</option>
-                            <option data-gitlab="" value="Universal-Image-Downloader-Extension-Firefox">Universal Image Downloader (Extension)</option>
+                            <option data-gitlab="universal-image-downloader-extension" value="universal-image-downloader-extension">Universal Image Downloader (Extension)</option>
                             <option data-gitlab="universal-image-downloader-userscript" value="Universal-Image-Downloader-Userscript">Universal Image Downloader (Userscript)</option>
-                            <option data-gitlab="" value="Aggregator-Comic-Site-Chapter-Downloader-Extension-Atsumaru-Mangadot-MangaGo">Atsumaru Mangadot Mangago Downloader (Extension)</option>
+                            <option data-gitlab="atsumaru-mangadot-mangago-comic-downloader-extension" value="atsumaru-mangadot-mangago-comic-downloader-extension">Atsumaru Mangadot Mangago Downloader (Extension)</option>
                             <option data-gitlab="aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" value="Aggregator-Comic-Site-Chapter-Downloader-Atsumaru-Mangadot-MangaGo">Aggregator Comic Site Chapter Downloader(Atsumaru, Mangadot, MangaGo) (Userscript)</option>
                             <option data-gitlab="manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" value="MangaPlus-Bookwalker-MangaUP-MangaMillion-GanganOnline-Zebcrack-Ripper-New-Version">Manga Plus,Bookwalker,Manga-UP,Manga Million,Gangan Online & Zebcrack Ripper</option>
                             <option data-gitlab="mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" value="MangaPlaza-ComicCmoA-And-Yomiho C'moA-Chapter-Ripper-ENG-JP-Userscript">MangaPlaza Comic C'moA & Yomiho C'moA Ripper(ENG,JP)</option>
@@ -1128,7 +1397,7 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                             <option data-gitlab="ridibooks-comic-ripper" value="Ridibooks-Chapter-Downloader-Userscript">Ridibooks Comic Ripper</option>
                             <option data-gitlab="omoi-azuki-chapter-ripper" value="Omoi-Azuki-Ripper-Userscript">Omoi/Azuki Chapter Ripper</option>
                             <option data-gitlab="comikey-ripper-manga-webtoon-eng-br" value="Comikey-Manga-And-Webtoon-Ripper-Eng-Br">Comikey Ripper (Manga & Webtoon) ENG,BR</option>
-                            <option data-gitlab="kakao-page-comic-ripper" value="Kakao-Page-Comic-Ripper-Userscript">Kakao Page Comic Ripper</option>
+                            <option data-gitlab="kakaopage-comic-ripper" value="Kakao-Page-Comic-Ripper-Userscript">Kakao Page Comic Ripper</option>
                             <option data-gitlab="all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" value="All-Lezhin-Beltoon-Bomtoon-KakaoWebtoon-MrBlue-ToptoonJP-Ripper-All-Languages">All Lezhin,Beltoon,Bomtoon,Kakao-Webtoon,Mr-Blue,Toptoon(JP) Ripper(All Languages)</option>
                             <option data-gitlab="kuaikan-manhua-ripper" value="KuaiKan-Manhua-Ripper">KuaiKan Manhua Ripper</option>
                             <option data-gitlab="j-novel-club-chapter-ripper-eng-fr-de" value="J-Novel-Club-Chapter-Ripper-ENG-FR-DE-Userscript">J-Novel Club Chapter Ripper(ENG,FR,DE)</option>
@@ -1185,10 +1454,23 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
                             <svg class="gitlab-icon" viewBox="0 0 24 24" style="width:20px;height:20px;margin-right:8px;fill:#FC6D26;"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
                             Login With GitLab to Post Feedback
                         </button>
+
+                        <button type="button" id="forgejoBtn" class="feedback-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=forgejo.org&sz=64" alt="Forgejo" style="width:20px;height:20px;margin-right:8px;">
+                            Login With Forgejo to Post Feedback
+                        </button>
+                        <button type="button" id="codebergBtn" class="feedback-btn">
+                            <img src="https://www.google.com/s2/favicons?domain=codeberg.org&sz=64" alt="Codeberg" style="width:20px;height:20px;margin-right:8px;">
+                            Login With Codeberg to Post Feedback
+                        </button>
+                        <button type="button" id="gitgudBtn" class="feedback-btn">
+                            <img src="https://www.git-gud.dev/favicon-96x96.png" alt="GitGud" style="width:20px;height:20px;margin-right:8px;">
+                            Login With GitGud to Post Feedback
+                        </button>
                     </div>
                     
                     <p class="note">
-                        <strong>GitLab:</strong> Opens a new Issue with pre-filled text.<br>
+                        <strong>GitLab / GitGud / Forgejo / Codeberg:</strong> Opens a new Issue with pre-filled text.<br>
                         <strong>Store / GreasyFork:</strong> Redirects to the respective feedback page.
                     </p>
                 </form>
@@ -1240,8 +1522,12 @@ footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:
         
         <div class="social-links">
             <a href="mailto:devjk6918@gmail.com">Email</a>
-            <a href="https://gitlab.com/devjk6918" target="_blank">GitLab</a>
+            <a href="https://gitlab.com/ozler" target="_blank">GitLab</a>
+            <a href="https://v16.next.forgejo.org/ozler" target="_blank">Forgejo</a>
+            <a href="https://codeberg.org/ozler" target="_blank">Codeberg</a>
+            <a href="https://gitgud.io/ozler" target="_blank">GitGud</a>
             <a href="https://greasyfork.org/en/users/1553223-ozler365" target="_blank">GreasyFork</a>
+            <a href="https://openuserjs.org/users/ozler" target="_blank">OpenUserJS</a>
             <a href="https://addons.mozilla.org/en-US/firefox/user/19010700/" target="_blank">Firefox</a>
             <a href="https://www.instagram.com/weebtopia_official" target="_blank">Instagram</a>
             <a href="https://x.com/theweebtopia" target="_blank">X</a>
@@ -1270,13 +1556,13 @@ const sectionBackgrounds = {
 };
 
 const extensionURLs = {
-    'Universal-Image-Downloader-Extension-Firefox': {
+    'universal-image-downloader-extension': {
         firefox: 'https://addons.mozilla.org/en-US/firefox/addon/universal-image-downloader/',
         edge: 'https://microsoftedge.microsoft.com/addons/detail/universal-image-downloade/dmendeegjofenpfmgfipnnalebefonhd',
         greasyfork: null
     },
     'Universal-Image-Downloader-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/561884-universal-image-downloader/feedback' },
-    'Aggregator-Comic-Site-Chapter-Downloader-Extension-Atsumaru-Mangadot-MangaGo': {
+    'atsumaru-mangadot-mangago-comic-downloader-extension': {
         firefox: 'https://addons.mozilla.org/en-US/android/addon/atsumangadotmangagodownloader/',
         edge: 'https://microsoftedge.microsoft.com/addons/detail/atsumaru-mangadot-mangago/bngfpihjnbbchghmdbmdfefjejjddnhe',
         greasyfork: null
@@ -1423,10 +1709,36 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const issueType = categorySelect.value;
             const description = feedbackBody.value;
-            const url = `https://gitlab.com/devjk6918/${gitlabRepo}/-/issues/new?issue[title]=${encodeURIComponent(feedbackTitle.value)}&issue[description]=${encodeURIComponent(description)}&issue[issue_type]=${issueType}`;
+            const url = `https://gitlab.com/ozler/${gitlabRepo}/-/issues/new?issue[title]=${encodeURIComponent(feedbackTitle.value)}&issue[description]=${encodeURIComponent(description)}&issue[issue_type]=${issueType}`;
             window.open(url, '_blank');
         });
     }
+
+    // Forgejo / Codeberg / GitGud feedback (same repo names as GitLab, with pre-filled text)
+    const gitHosts = {
+        forgejoBtn:  { base: 'https://v16.next.forgejo.org/ozler/', kind: 'forgejo' },
+        codebergBtn: { base: 'https://codeberg.org/ozler/',         kind: 'forgejo' },
+        gitgudBtn:   { base: 'https://gitgud.io/ozler/',            kind: 'gitlab' }
+    };
+    Object.keys(gitHosts).forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.addEventListener('click', function() {
+            const repo = repoSelect.value;
+            if (!repo) return alert("Please select an extension/script.");
+
+            const slug = repoSelect.selectedOptions[0].dataset.gitlab;
+            if (!slug) return alert("The link for this item hasn't been added yet.");
+
+            const host = gitHosts[id];
+            const title = encodeURIComponent(feedbackTitle.value);
+            const body = encodeURIComponent(feedbackBody.value);
+            const url = host.kind === 'gitlab'
+                ? `${host.base}${slug}/-/issues/new?issue[title]=${title}&issue[description]=${body}&issue[issue_type]=${categorySelect.value}`
+                : `${host.base}${slug}/issues/new?title=${title}&body=${body}`;
+            window.open(url, '_blank');
+        });
+    });
 });
 
 // --- CORE FUNCTIONS ---
@@ -1476,6 +1788,7 @@ function updateSliderCount(sliderId) {
     const cards = Array.from(slider.querySelectorAll('.card'));
     const idx = cards.findIndex(c => c.classList.contains('active'));
     counter.innerHTML = `<b>${idx + 1}</b> / ${cards.length}`;
+    counter.parentElement.style.setProperty('--progress', (idx + 1) / cards.length);
 }
 
 function initSliders() {
