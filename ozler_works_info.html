@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>OZLER – Projects & Feedback</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2324292f'/%3E%3Cpath d='M16 8a8 8 0 1 0 0 16 8 8 0 0 0 0-16z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E" type="image/svg+xml">
+
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2070&auto=format&fit=crop">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --ink: #f4f7fb;
+  --muted: #97a7bd;
+  --dim: #66768d;
+  --line: rgba(153, 181, 214, .16);
+  --glass: rgba(15, 23, 38, .72);
+  --glass-strong: rgba(20, 30, 49, .9);
+  --cyan: #6ee7f9;
+  --violet: #a78bfa;
+  --lime: #c5f467;
+  --orange: #ffb86b;
+  --radius: 24px;
+  --ease: cubic-bezier(.2,.8,.2,1);
+}
+
+*,*::before,*::after { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; min-height:100vh; overflow-x:hidden; color:var(--ink);
+  font-family:'Manrope',system-ui,sans-serif; line-height:1.55;
+  background:#07101d !important; isolation:isolate;
+}
+body::before, body::after {
+  content:''; position:fixed; pointer-events:none; z-index:-2; border-radius:50%; filter:blur(4px);
+}
+body::before { width:54vw; height:54vw; top:-20vw; right:-13vw; background:radial-gradient(circle,rgba(67,214,255,.19),transparent 68%); }
+body::after { width:60vw; height:60vw; bottom:-35vw; left:-20vw; background:radial-gradient(circle,rgba(128,92,246,.18),transparent 68%); }
+#bg-blur-overlay { position:fixed; inset:0; z-index:-1; opacity:1; background:linear-gradient(135deg,rgba(7,16,29,.91),rgba(10,18,33,.72) 50%,rgba(7,12,25,.94)); backdrop-filter:none; }
+
+a,button,input,select,textarea { font:inherit; }
+a { color:inherit; text-decoration:none; }
+::selection { color:#07101d; background:var(--cyan); }
+::-webkit-scrollbar { width:10px; } ::-webkit-scrollbar-track { background:#07101d; } ::-webkit-scrollbar-thumb { background:#273b56; border-radius:99px; border:2px solid #07101d; }
+
+.navbar {
+  position:sticky; top:0; z-index:1000; display:flex; align-items:center; justify-content:space-between;
+  padding:18px clamp(18px,4vw,64px); background:rgba(7,16,29,.7); border-bottom:1px solid transparent;
+  backdrop-filter:blur(22px); transition:.35s var(--ease);
+}
+.navbar::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent); opacity:.45; }
+.logo { display:flex; align-items:center; gap:11px; color:var(--ink); font-size:1.1rem; font-weight:800; letter-spacing:.2em; cursor:pointer; }
+.logo::before { width:22px; height:22px; background:linear-gradient(135deg,var(--cyan),var(--violet)); border-radius:7px; mask:none; -webkit-mask:none; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); box-shadow:0 0 24px rgba(110,231,249,.65); }
+.nav-links { display:flex; align-items:center; gap:4px; margin-left:28px; }
+.nav-item { position:relative; border:0; background:transparent; color:var(--muted); padding:10px 15px; border-radius:12px; cursor:pointer; font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; transition:.3s var(--ease); }
+.nav-item:hover,.nav-item.active { color:var(--ink); background:rgba(255,255,255,.08); }
+.nav-item.active::after { content:''; position:absolute; height:2px; left:15px; right:15px; bottom:4px; background:var(--cyan); box-shadow:0 0 12px var(--cyan); }
+.hamburger { display:none; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:12px; padding:10px; cursor:pointer; }
+.hamburger span { display:block; width:22px; height:2px; margin:4px; background:var(--ink); border-radius:2px; }
+
+.container { width:min(1240px,100%); margin:auto; padding:clamp(50px,8vw,110px) clamp(18px,4vw,64px) 60px; position:relative; z-index:1; }
+.view-section { display:none; animation:rise .6s var(--ease) both; }
+.view-section.active-view { display:block; }
+@keyframes rise { from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none} }
+
+.page-header { max-width:840px; margin:0 auto 64px; text-align:left; position:relative; }
+.page-header::before { content:'OZLER / DIGITAL TOOLKIT'; display:block; margin-bottom:20px; color:var(--cyan); font:500 .72rem 'DM Mono',monospace; letter-spacing:.18em; }
+.page-header h1 { margin:0; color:var(--ink); font-size:clamp(3.3rem,9vw,8.2rem); line-height:.92; letter-spacing:-.075em; font-weight:800; max-width:900px; text-wrap:balance; }
+.page-header p { max-width:620px; margin:26px 0 0; color:var(--muted); font-size:clamp(1rem,2vw,1.25rem); }
+#home-view .page-header h1 { background:linear-gradient(110deg,#fff 8%,var(--cyan) 45%,var(--violet) 82%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+.action-section { position:relative; overflow:hidden; margin:0 0 70px; padding:34px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(135deg,rgba(26,41,66,.8),rgba(13,23,40,.54)); box-shadow:0 20px 80px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.08); }
+.action-section::before { content:'01'; position:absolute; right:28px; top:16px; color:rgba(255,255,255,.06); font:800 6rem 'DM Mono',monospace; }
+.action-section h3 { margin:0 0 6px; color:var(--ink); font-size:1.4rem; }
+.action-section p { margin:0 0 24px; color:var(--muted); }
+.btn-group { display:flex; flex-wrap:wrap; gap:12px; }
+.action-btn,.feedback-btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:14px 20px; border:1px solid rgba(110,231,249,.28); border-radius:13px; color:var(--ink); background:rgba(255,255,255,.055); cursor:pointer; font-weight:700; font-size:.88rem; transition:.3s var(--ease); }
+.action-btn:hover,.feedback-btn:hover { transform:translateY(-4px); border-color:var(--cyan); background:rgba(110,231,249,.12); box-shadow:0 12px 28px rgba(28,174,211,.16); }
+.action-btn:first-child { color:#09121e; border:0; background:linear-gradient(135deg,var(--cyan),var(--lime)); }
+
+.social-links { display:flex; flex-wrap:wrap; gap:10px; margin:0; padding:0; }
+.social-links a { padding:8px 13px; color:var(--dim); border:1px solid transparent; border-radius:99px; font-size:.78rem; font-weight:700; transition:.3s var(--ease); }
+.social-links a:hover { color:var(--ink); border-color:var(--line); background:rgba(255,255,255,.05); transform:translateY(-3px); }
+
+.section-notice { display:flex; align-items:center; gap:12px; margin:0 0 42px; padding:15px 18px; border:1px solid rgba(255,184,107,.27); border-radius:14px; color:var(--muted); background:rgba(255,184,107,.06); font-size:.85rem; }
+.section-notice strong { color:var(--orange); font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; }
+.content-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.content-column { min-width:0; padding:25px; border:1px solid var(--line); border-radius:var(--radius); background:rgba(13,24,42,.54); box-shadow:inset 0 1px rgba(255,255,255,.05); }
+.section-title { display:flex; align-items:center; gap:10px; margin:0 0 22px; color:var(--ink); font-size:1rem; letter-spacing:.08em; text-transform:uppercase; }
+.section-title::before { content:'↳'; color:var(--cyan); font:1.3rem 'DM Mono',monospace; }
+.slider-wrapper { position:relative; }
+.slider { min-height:300px; overflow:hidden; }
+.slider .card { display:none; min-height:300px; padding:4px; flex-direction:column; }
+.slider .card.active { display:flex; animation:cardIn .45s var(--ease) both; }
+@keyframes cardIn { from{opacity:0;transform:translateX(18px)} to{opacity:1;transform:none} }
+.slider-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 20px; padding:8px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.035); }
+.slider-nav-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 18px; border:1px solid rgba(255,255,255,.12); border-radius:99px; color:var(--muted); background:rgba(15,23,38,.6); cursor:pointer; font-weight:700; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; transition:all .3s var(--ease); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+.slider-nav-btn:hover { color:var(--ink); transform:translateY(-2px); border-color:var(--cyan); background:rgba(110,231,249,.12); box-shadow:0 8px 24px rgba(28,174,211,.18); }
+.slider-nav-btn:active { transform:translateY(0); }
+.slider-nav-btn:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
+.slider-nav-btn svg { width:15px; height:15px; stroke:var(--cyan); transition:transform .3s var(--ease); }
+.slider-nav-btn[aria-label="Previous"]:hover svg { transform:translateX(-3px); }
+.slider-nav-btn[aria-label="Next"]:hover svg { transform:translateX(3px); }
+.slider-count { color:var(--muted); font:500 .74rem 'DM Mono',monospace; letter-spacing:.12em; white-space:nowrap; }
+.slider-count b { color:var(--cyan); font-weight:500; }
+.card-header { display:flex; align-items:flex-start; gap:15px; margin-bottom:18px; }
+.card-icon { width:55px; height:55px; flex:0 0 55px; border:1px solid rgba(255,255,255,.2); border-radius:16px; object-fit:cover; box-shadow:0 10px 25px rgba(0,0,0,.3); }
+.title-container { min-width:0; }
+.card h3 { margin:3px 0 0; color:var(--ink); font-size:1.15rem; line-height:1.25; letter-spacing:-.025em; }
+.meta-line { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:9px; color:var(--dim); font: .72rem 'DM Mono',monospace; }
+.meta-label { color:var(--cyan); }
+.site-icons { display:flex; gap:5px; } .site-icon { width:18px; height:18px; padding:2px; border-radius:6px; background:#fff; transition:.3s var(--ease); } .site-icon:hover { transform:translateY(-3px) scale(1.1); }
+.flags { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.flag-img { width:20px; height:14px; object-fit:cover; border-radius:3px; box-shadow:0 0 0 1px rgba(255,255,255,.22); }
+.card .description { flex:1; margin:0 0 22px; color:var(--muted); font-size:.91rem; line-height:1.7; }
+.card .links { margin-top:auto; padding-top:16px; border-top:1px solid var(--line); }
+.links-container { display:flex; flex-wrap:wrap; gap:8px; }
+.card a { display:inline-flex; align-items:center; gap:7px; padding:9px 12px; border:1px solid var(--line); border-radius:10px; color:var(--muted); background:rgba(255,255,255,.035); font-size:.75rem; font-weight:700; transition:.3s var(--ease); }
+.card a:hover { color:var(--ink); border-color:var(--cyan); background:rgba(110,231,249,.1); transform:translateY(-3px); }
+.title-container a { padding:0; border:0; background:none; }
+.link-icon { width:15px; height:15px; }
+
+.feedback-wrapper,.about-container { max-width:840px; margin:auto; }
+.feedback-section { padding:28px; border:1px solid var(--line); border-radius:var(--radius); background:rgba(13,24,42,.65); }
+.form-group { padding:12px 0; } label { display:block; margin-bottom:9px; color:var(--muted); font:500 .74rem 'DM Mono',monospace; letter-spacing:.12em; text-transform:uppercase; }
+select,textarea,input { width:100%; padding:14px 16px; color:var(--ink); background:rgba(3,10,20,.65); border:1px solid var(--line); border-radius:12px; outline:0; transition:.3s var(--ease); }
+select:focus,textarea:focus,input:focus { border-color:var(--cyan); box-shadow:0 0 0 4px rgba(110,231,249,.1); }
+select option { background:#0c1829; } textarea { min-height:150px; resize:vertical; }
+.star-rating { display:flex; gap:8px; } .star { color:#34455c; font-size:2rem; cursor:pointer; transition:.25s var(--ease); } .star.active,.star:hover { color:var(--orange); text-shadow:0 0 18px rgba(255,184,107,.5); transform:scale(1.12); }
+.feedback-btn { width:100%; margin-top:10px; }
+.note { color:var(--dim); font-size:.8rem; }
+.about-text { color:var(--muted); font-size:1.05rem; } .about-text p { margin:0 0 22px; }
+footer { padding:38px 20px 50px; color:var(--dim); text-align:center; font-size:.78rem; } footer a { color:var(--cyan); }
+.mobile-nav-overlay { position:fixed; inset:0; z-index:998; background:rgba(2,8,16,.7); backdrop-filter:blur(8px); opacity:0; visibility:hidden; transition:.3s; }
+.mobile-nav-overlay.active { opacity:1; visibility:visible; }
+.mobile-nav-menu { position:fixed; z-index:999; top:0; right:-330px; width:min(330px,88vw); height:100vh; display:flex; flex-direction:column; gap:7px; padding:90px 22px 22px; background:var(--glass-strong); border-left:1px solid var(--line); box-shadow:-30px 0 80px rgba(0,0,0,.4); visibility:hidden; transition:.4s var(--ease); }
+.mobile-nav-menu.active { right:0; visibility:visible; } .mobile-nav-menu .nav-item { text-align:left; padding:15px; } .mobile-close { position:absolute; top:23px; right:22px; border:0; color:var(--muted); background:none; font-size:2rem; cursor:pointer; }
+@media (max-width:900px) { .content-grid { grid-template-columns:1fr; } .nav-links { gap:0; } }
+@media (max-width:420px) { .slider-nav-btn { padding:9px 11px; letter-spacing:.03em; } }
+@media (max-width:700px) { .navbar { padding:15px 18px; } .nav-links { display:none; } .hamburger { display:flex; flex-direction:column; } .container { padding-top:58px; } .page-header { margin-bottom:40px; } .page-header h1 { font-size:clamp(3rem,16vw,5rem); } .action-section,.content-column,.feedback-section { padding:20px; } .btn-group { flex-direction:column; } .action-btn { width:100%; } .social-links { gap:5px; } .slider { min-height:350px; } .slider .card { min-height:350px; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+
+</style>
+</head>
+<body>
+
+<div id="bg-blur-overlay"></div>
+
+<nav class="navbar text-shadow-layer">
+    <div style="display: flex; align-items: center;">
+        <div class="logo" onclick="switchView('projects')">OZLER</div>
+        <div class="nav-links">
+            <button class="nav-item active" onclick="switchView('home')" id="nav-home">Overview</button>
+            <button class="nav-item" onclick="switchView('projects')" id="nav-projects">Projects</button>
+            <button class="nav-item" onclick="switchView('feedback')" id="nav-feedback">Feedback</button>
+            <button class="nav-item" onclick="switchView('about')" id="nav-about">About Us</button>
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+
+<div class="mobile-nav-menu" id="mobileNavMenu">
+    <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close">×</button>
+    <button class="nav-item active" onclick="switchViewMobile('home')" id="mobile-nav-home">Overview</button>
+    <button class="nav-item" onclick="switchViewMobile('projects')" id="mobile-nav-projects">Projects</button>
+    <button class="nav-item" onclick="switchViewMobile('feedback')" id="mobile-nav-feedback">Feedback</button>
+    <button class="nav-item" onclick="switchViewMobile('about')" id="mobile-nav-about">About Us</button>
+</div>
+
+<div class="container text-shadow-layer">
+
+    <div id="home-view" class="view-section active-view">
+        <header class="page-header">
+            <h1>Thank You For Installing</h1>
+            <p>A collection of useful tools for an improved web experience.</p>
+        </header>
+
+        <section class="action-section">
+            <h3>Support My Work</h3>
+            <p>If you find these tools useful, consider supporting the development.</p>
+            
+            <div class="btn-group">
+                <a href="https://buymeacoffee.com/ozler" target="_blank" class="action-btn">
+                    <svg viewBox="0 0 16 16" width="18" height="18" style="margin-right:10px; fill:currentColor"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"></path></svg>
+                    Donate
+                </a>
+                <button onclick="switchView('feedback')" class="action-btn">
+                    Leave Feedback
+                </button>
+                <button onclick="switchView('projects')" class="action-btn">
+                    View Projects
+                </button>
+            </div>
+        </section>
+
+        <div class="social-links">
+            <a href="mailto:devjk6918@gmail.com">Email</a>
+            <a href="https://gitlab.com/devjk6918" target="_blank">GitLab</a>
+            <a href="https://greasyfork.org/en/users/1553223-ozler365" target="_blank">GreasyFork</a>
+            <a href="https://addons.mozilla.org/en-US/firefox/user/19010700/" target="_blank">Firefox</a>
+            <a href="https://www.instagram.com/weebtopia_official" target="_blank">Instagram</a>
+            <a href="https://x.com/theweebtopia" target="_blank">X</a>
+            <a href="https://www.reddit.com/u/False_Month1541" target="_blank">Reddit</a>
+            <a href="https://discord.gg/CJ2GA8vqd" target="_blank">Discord</a>
+            <a href="https://t.me/subhadeepdutta2004" target="_blank">Telegram</a>
+            <a href="https://www.threads.com/@weebtopiaofficial" target="_blank">Threads</a>
+        </div>
+    </div>
+
+    <div id="projects-view" class="view-section">
+        <header class="page-header">
+            <h1>Projects</h1>
+            <p>Extensions & Userscripts Collection</p>
+        </header>
+
+        <div class="section-notice">
+            <svg viewBox="0 0 16 16" width="20" height="20" style="fill:currentColor"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg>
+            <strong>Note:</strong> Please read all instructions on how to use these userscripts and extensions before installing.
+        </div>
+
+        <div class="content-grid">
+            
+            <div class="content-column">
+                <h2 class="section-title">Extensions</h2>
+                <div class="slider-nav" data-slider="ext-slider">
+                    <button type="button" class="slider-nav-btn" onclick="slide('ext-slider', -1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Previous</button>
+                    <div class="slider-count" aria-live="polite"><b>1</b> / 1</div>
+                    <button type="button" class="slider-nav-btn" onclick="slide('ext-slider', 1)" aria-label="Next">Next <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                </div>
+                <div class="slider-wrapper">
+                    <div class="slider" id="ext-slider">
+                        <div class="card active">
+                            <div class="card-header">
+                                <img src="https://addons.mozilla.org/user-media/addon_icons/2965/2965715-64.png?modified=1d9c10c2" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Universal Image Downloader</h3>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Firefox/ Edge/ Chrome extension. Downloads images from most sites. Supports zip, subfolders, and auto-descrambling.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://microsoftedge.microsoft.com/addons/detail/universal-image-downloade/dmendeegjofenpfmgfipnnalebefonhd" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="Edge" class="link-icon">
+                                        Edge
+                                    </a>
+                                    <a href="https://addons.mozilla.org/en-US/firefox/addon/universal-image-downloader/" target="_blank">
+                                        <img src="https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg" alt="Firefox" class="link-icon">
+                                        Firefox
+                                    </a>
+                                    <!-- TODO: add your GitLab link in the href below -->
+                                    <a href="#" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://atsu.moe//favicon/apple-touch-icon.png" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Atsumaru Mangadot Mangago Comic Downloader</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://atsu.moe/" target="_blank" title="Atsumaru"><img src="https://www.google.com/s2/favicons?domain=atsu.moe&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://mangadot.net/" target="_blank" title="Mangadot"><img src="https://greasyfork.s3.us-east-2.amazonaws.com/cg5qwghq9ebvbukktnfmzn9xo68c" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.mangago.me/" target="_blank" title="MangaGo"><img src="https://www.google.com/s2/favicons?domain=mangago.me&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.mangago.zone/" target="_blank" title="MangaGo Zone"><img src="https://www.google.com/s2/favicons?domain=mangago.zone&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts and downloads chapters from Atsumaru, Mangadot, and MangaGo seamlessly. Keeps original image quality and formatting intact.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://microsoftedge.microsoft.com/addons/detail/atsumaru-mangadot-mangago/bngfpihjnbbchghmdbmdfefjejjddnhe" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="Edge" class="link-icon">
+                                        Edge
+                                    </a>
+                                    <a href="https://addons.mozilla.org/en-US/android/addon/atsumangadotmangagodownloader/" target="_blank">
+                                        <img src="https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg" alt="Firefox" class="link-icon">
+                                        Firefox
+                                    </a>
+                                    <!-- TODO: add your GitLab link in the href below -->
+                                    <a href="#" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-column">
+                <h2 class="section-title">Userscripts</h2>
+                <div class="slider-nav" data-slider="script-slider">
+                    <button type="button" class="slider-nav-btn" onclick="slide('script-slider', -1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Previous</button>
+                    <div class="slider-count" aria-live="polite"><b>1</b> / 1</div>
+                    <button type="button" class="slider-nav-btn" onclick="slide('script-slider', 1)" aria-label="Next">Next <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                </div>
+                <div class="slider-wrapper">
+                    <div class="slider" id="script-slider">
+                        
+                        <div class="card active">
+                            <div class="card-header">
+                                <img src="https://addons.mozilla.org/user-media/addon_icons/2965/2965715-64.png?modified=1d9c10c2" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Universal Image Downloader</h3>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Requires Tampermonkey. Downloads images from various sites with auto-descrambling support.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/561884-universal-image-downloader" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/universal-image-downloader-userscript" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Universal_Image_Downloader" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://atsu.moe//favicon/apple-touch-icon.png" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Aggregator Comic Site Chapter Downloader(Atsumaru, Mangadot, MangaGo)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://atsu.moe/" target="_blank" title="Atsumaru"><img src="https://www.google.com/s2/favicons?domain=atsu.moe&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://mangadot.net/" target="_blank" title="Mangadot"><img src="https://greasyfork.s3.us-east-2.amazonaws.com/cg5qwghq9ebvbukktnfmzn9xo68c" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.mangago.me/" target="_blank" title="MangaGo"><img src="https://www.google.com/s2/favicons?domain=mangago.me&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.mangago.zone/" target="_blank" title="MangaGo Zone"><img src="https://www.google.com/s2/favicons?domain=mangago.zone&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts and downloads chapters from Atsumaru, Mangadot, and MangaGo seamlessly. Keeps original image quality and formatting intact.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/595572-aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Aggregator_Comic_Site_Chapter_Downloader(Atsumaru,_Mangadot,_MangaGo)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://mangaplus.shueisha.co.jp/icn/app_icon_192.png" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Manga Plus,Bookwalker,Manga-UP,Manga Million,Gangan Online & Zebcrack Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://mangaplus.shueisha.co.jp" target="_blank" title="Manga Plus"><img src="https://www.google.com/s2/favicons?domain=mangaplus.shueisha.co.jp&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://bookwalker.com/" target="_blank" title="Bookwalker"><img src="https://www.google.com/s2/favicons?domain=bookwalker.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://global.manga-up.com/" target="_blank" title="Manga-UP"><img src="https://www.google.com/s2/favicons?domain=global.manga-up.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://mangamillion.shueisha.co.jp/" target="_blank" title="Manga Million"><img src="https://www.google.com/s2/favicons?domain=mangamillion.shueisha.co.jp&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.ganganonline.com/" target="_blank" title="Gangan Online"><img src="https://www.ganganonline.com/assets/ogp/top.jpeg" class="site-icon" alt="Site"></a>
+                                            <a href="https://zebrack-comic.shueisha.co.jp/" target="_blank" title="Zebcrack"><img src="https://www.google.com/s2/favicons?domain=zebrack-comic.shueisha.co.jp&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"><img src="https://flagcdn.com/w40/th.png" srcset="https://flagcdn.com/w80/th.png 2x" class="flag-img" alt="TH" title="TH" loading="lazy"><img src="https://flagcdn.com/w40/br.png" srcset="https://flagcdn.com/w80/br.png 2x" class="flag-img" alt="BR" title="BR" loading="lazy"><img src="https://flagcdn.com/w40/id.png" srcset="https://flagcdn.com/w80/id.png 2x" class="flag-img" alt="ID" title="ID" loading="lazy"><img src="https://flagcdn.com/w40/ru.png" srcset="https://flagcdn.com/w80/ru.png 2x" class="flag-img" alt="RU" title="RU" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"><img src="https://flagcdn.com/w40/vn.png" srcset="https://flagcdn.com/w80/vn.png 2x" class="flag-img" alt="VN" title="VN" loading="lazy"><img src="https://flagcdn.com/w40/jp.png" srcset="https://flagcdn.com/w80/jp.png 2x" class="flag-img" alt="JP" title="JP" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Download high-quality chapter images specifically from These 6 Sites. Requires Tampermonkey.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594343-manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Manga_Plus,Bookwalker,Manga-UP,Manga_Million,Gangan_Online_Zebcrack_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://c.mangaplaza.com/s/images/header/icon_sitelogo.svg?v=20260108103504" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>MangaPlaza,Comic C'moA & Yomiho C'moA Ripper(ENG,JP)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://mangaplaza.com/" target="_blank" title="MangaPlaza"><img src="https://www.google.com/s2/favicons?domain=mangaplaza.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.cmoa.jp/" target="_blank" title="Comic C'moA"><img src="https://c-cmoa.akamaized.net/sol/pcc/images/webclipicon/favicon_cmoa.svg?v=3" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.cmoa.jp/" target="_blank" title="Yomiho C'moA"><img src="https://c.yomiho.cmoa.jp/solmare/pc/images/header/201510/sitelogo_unlimited_full_2015.png" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/jp.png" srcset="https://flagcdn.com/w80/jp.png 2x" class="flag-img" alt="JP" title="JP" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Optimized for MangaPlaza,Yomiho C'moA and Comic C'moA. Downloads chapters directly. Requires Tampermonkey/Violentmonkey.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/560991-mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/MangaPlaza,Comic_CmoA_Yomiho_CmoA_Ripper(ENG,JP)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://manta.net/favicon.ico" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Manta Comic Ripper(ENG,ES,FR)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://manta.net/en" target="_blank" title="Manta"><img src="https://www.google.com/s2/favicons?domain=manta.net&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Specialized downloader for Manta Comics. Ensures correct image ordering.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562775-manta-comic-ripper-eng-es-fr" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/manta-comic-ripper-eng-es-fr" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Manta_Comic_Ripper(ENG,ES,FR)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/60/7a/f5/607af51b-e47d-f104-de6c-64fcc9a7cd8d/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/400x400ia-75.webp" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Tappytoon Ripper(ENG,FR,DE)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.tappytoon.com/" target="_blank" title="Tappytoon"><img src="https://www.google.com/s2/favicons?domain=tappytoon.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts and downloads chapters from Tappytoon. Easy to use with Tampermonkey.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562783-tappytoon-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/tappytoon-ripper-eng-fr-de" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Tappytoon_Ripper(ENG,FR,DE)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7f/51/9b/7f519b55-f452-d89a-7723-1f4e476cd947/Placeholder.mill/400x400bb-75.webp" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>WebComics Chapter Ripper(All Languages)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.webcomicsapp.com" target="_blank" title="WebComics"><img src="https://www.google.com/s2/favicons?domain=webcomicsapp.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/pt.png" srcset="https://flagcdn.com/w80/pt.png 2x" class="flag-img" alt="PT" title="PT" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"><img src="https://flagcdn.com/w40/id.png" srcset="https://flagcdn.com/w80/id.png 2x" class="flag-img" alt="ID" title="ID" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Dedicated tool for downloading from WebComics. Fast and reliable execution.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562787-webcomics-chapter-ripper-all-languages" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/webcomics-chapter-ripper-all-languages" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/WebComics_Chapter_Ripper(All_Languages)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/0b/29/8f/0b298fe2-868a-7581-256e-76001c28ae4d/Placeholder.mill/400x400bb-75.webp" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Webnovel Comic Ripper(All Languages)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.webnovel.com/" target="_blank" title="Webnovel"><img src="https://www.google.com/s2/favicons?domain=webnovel.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/jp.png" srcset="https://flagcdn.com/w80/jp.png 2x" class="flag-img" alt="JP" title="JP" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"><img src="https://flagcdn.com/w40/pt.png" srcset="https://flagcdn.com/w80/pt.png 2x" class="flag-img" alt="PT" title="PT" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"><img src="https://flagcdn.com/w40/vn.png" srcset="https://flagcdn.com/w80/vn.png 2x" class="flag-img" alt="VN" title="VN" loading="lazy"><img src="https://flagcdn.com/w40/th.png" srcset="https://flagcdn.com/w80/th.png 2x" class="flag-img" alt="TH" title="TH" loading="lazy"><img src="https://flagcdn.com/w40/cn.png" srcset="https://flagcdn.com/w80/cn.png 2x" class="flag-img" alt="CN" title="CN" loading="lazy"><img src="https://flagcdn.com/w40/id.png" srcset="https://flagcdn.com/w80/id.png 2x" class="flag-img" alt="ID" title="ID" loading="lazy"><img src="https://flagcdn.com/w40/kr.png" srcset="https://flagcdn.com/w80/kr.png 2x" class="flag-img" alt="KR" title="KR" loading="lazy"><img src="https://flagcdn.com/w40/tr.png" srcset="https://flagcdn.com/w80/tr.png 2x" class="flag-img" alt="TR" title="TR" loading="lazy"><img src="https://flagcdn.com/w40/ph.png" srcset="https://flagcdn.com/w80/ph.png 2x" class="flag-img" alt="PH" title="PH" loading="lazy"><img src="https://flagcdn.com/w40/it.png" srcset="https://flagcdn.com/w80/it.png 2x" class="flag-img" alt="IT" title="IT" loading="lazy"><img src="https://flagcdn.com/w40/sa.png" srcset="https://flagcdn.com/w80/sa.png 2x" class="flag-img" alt="SA" title="SA" loading="lazy"><img src="https://flagcdn.com/w40/ru.png" srcset="https://flagcdn.com/w80/ru.png 2x" class="flag-img" alt="RU" title="RU" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Downloads comic chapters from Webnovel. Simple interface and effective scraping.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562799-webnovel-comic-ripper-all-languages" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/webnovel-comic-ripper-all-languages" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Webnovel_Comic_Ripper(All_Languages)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://ridibooks.com/favicon.ico" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Ridibooks Comic Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://ridibooks.com/" target="_blank" title="Ridibooks"><img src="https://www.google.com/s2/favicons?domain=ridibooks.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/kr.png" srcset="https://flagcdn.com/w80/kr.png 2x" class="flag-img" alt="KR" title="KR" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Tailored for Ridibooks. Handles chapter structure efficiently.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562807-ridibooks-comic-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/ridibooks-comic-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Ridibooks_Comic_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://www.azuki.co/favicon.ico" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Omoi / Azuki Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.omoi.com/" target="_blank" title="Omoi"><img src="https://www.google.com/s2/favicons?domain=omoi.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Downloads from Omoi/Azuki. Keeps original quality and formatting.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562914-omoi-azuki-chapter-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/omoi-azuki-chapter-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/OmoiAzuki_Chapter_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://comikey.com/favicon.ico" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Comikey Ripper (Manga & Webtoon) ENG,BR</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://comikey.com/" target="_blank" title="Comikey"><img src="https://www.google.com/s2/favicons?domain=comikey.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://br.comikey.com/" target="_blank" title="Comikey"><img src="https://www.google.com/s2/favicons?domain=br.comikey.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/br.png" srcset="https://flagcdn.com/w80/br.png 2x" class="flag-img" alt="BR" title="BR" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Automated downloader for Comikey chapters. Works best with Tampermonkey.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/562935-comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/comikey-ripper-manga-webtoon-eng-br" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Comikey_Ripper_(Manga_Webtoon)_ENG,BR" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/9e/81/2a/9e812ae3-62bd-4c11-06ec-ca47e2c9ce3e/Placeholder.mill/400x400bb-75.webp" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Kakao Page Comic Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://page.kakao.com/" target="_blank" title="KakaoPage"><img src="https://www.google.com/s2/favicons?domain=page.kakao.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/kr.png" srcset="https://flagcdn.com/w80/kr.png 2x" class="flag-img" alt="KR" title="KR" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Specific tool for Kakao Page. Extract images seamlessly.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/563056-kakao-page-comic-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/kakaopage-comic-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/KakaoPage_Comic_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/d9/d7/15/d9d71563-9b9c-6545-04ee-4b9ace81bb1e/Placeholder.mill/400x400bb-75.webp" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>All Lezhin,Beltoon,Bomtoon,Kakao-Webtoon,Mr-Blue,Toptoon(JP) Ripper(All Languages)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.lezhinus.com/" target="_blank" title="Lezhin"><img src="https://www.google.com/s2/favicons?domain=lezhinus.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.beltoon.jp" target="_blank" title="Beltoon"><img src="https://www.google.com/s2/favicons?domain=beltoon.jp&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://webtoon.kakao.com/" target="_blank" title="Kakao Webtoon"><img src="https://www.google.com/s2/favicons?domain=webtoon.kakao.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://m.mrblue.com/" target="_blank" title="Mr Blue"><img src="https://www.google.com/s2/favicons?domain=mrblue.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://toptoon.jp/" target="_blank" title="Toptoon JP"><img src="https://www.google.com/s2/favicons?domain=toptoon.jp&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/jp.png" srcset="https://flagcdn.com/w80/jp.png 2x" class="flag-img" alt="JP" title="JP" loading="lazy"><img src="https://flagcdn.com/w40/kr.png" srcset="https://flagcdn.com/w80/kr.png 2x" class="flag-img" alt="KR" title="KR" loading="lazy"><img src="https://flagcdn.com/w40/th.png" srcset="https://flagcdn.com/w80/th.png 2x" class="flag-img" alt="TH" title="TH" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"><img src="https://flagcdn.com/w40/cn.png" srcset="https://flagcdn.com/w80/cn.png 2x" class="flag-img" alt="CN" title="CN" loading="lazy"><img src="https://flagcdn.com/w40/tw.png" srcset="https://flagcdn.com/w80/tw.png 2x" class="flag-img" alt="TW" title="TW" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Works for both All versions of Lezhin and Others Sites Mentioned. High reliability.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/563063-all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/All_Lezhin,Beltoon,Bomtoon,Kakao-Webtoon,Mr-Blue,Toptoon(JP)_Ripper(All_Languages)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://festatic.v3mh.com/static-resource/img/20210706/tiny/logo_128x128.png" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>KuaiKan Manhua Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.kuaikanmanhua.com/" target="_blank" title="KuaiKan"><img src="https://www.google.com/s2/favicons?domain=kuaikanmanhua.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/cn.png" srcset="https://flagcdn.com/w80/cn.png 2x" class="flag-img" alt="CN" title="CN" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts chapters from KuaiKan Manhua effortlessly.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594974-kuaikan-manhua-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/kuaikan-manhua-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/KuaiKan_Manhua_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://play-lh.googleusercontent.com/7nPAJjEXNWjxfQtG3JwwwEXGXm4Tr6ncoOkhzx27omrBQ8v1MmmEWGFZfxwcACX7iEo=w480-h960" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>J-Novel Club Chapter Ripper(ENG,FR,DE)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://j-novel.club/" target="_blank" title="J-Novel Club"><img src="https://www.google.com/s2/favicons?domain=j-novel.club&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://jnc-nina.eu/" target="_blank" title="JNC Nina"><img src="https://www.google.com/s2/favicons?domain=jnc-nina.eu&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Designed for J-Novel Club & JNC Nina. Clean download process for all chapters.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/565173-j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/j-novel-club-chapter-ripper-eng-fr-de" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/J-Novel_Club_Chapter_Ripper(ENG,FR,DE)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://comics.inkr.com/_next/static/media/inkr-logo.f50e229a.svg" alt="Icon" class="card-icon" onerror="this.src='https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/9e/81/2a/9e812ae3-62bd-4c11-06ec-ca47e2c9ce3e/Placeholder.mill/400x400bb-75.webp'">
+                                <div class="title-container">
+                                    <h3>Inkr Comics Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://comics.inkr.com/" target="_blank" title="Inkr"><img src="https://www.google.com/s2/favicons?domain=comics.inkr.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts and downloads chapters from Inkr Comics. Fast and reliable.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/569825-inkr-comics-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/inkr-comics-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Inkr_Comics_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Webtoon_logo.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Tapas,Webtoon,Mangatoon,Toomics,Naver,Dongmanmanhua,Lalatoon,Honeytoon,Toptoon Ripper(All Languages)</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://tapas.io/" target="_blank" title="Tapas"><img src="https://www.google.com/s2/favicons?domain=tapas.io&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.webtoons.com" target="_blank" title="Webtoons"><img src="https://www.google.com/s2/favicons?domain=webtoons.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://mangatoon.mobi/" target="_blank" title="Mangatoon"><img src="https://www.google.com/s2/favicons?domain=mangatoon.mobi&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://toomics.com/" target="_blank" title="Toomics"><img src="https://www.google.com/s2/favicons?domain=toomics.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://comic.naver.com/" target="_blank" title="Naver"><img src="https://www.google.com/s2/favicons?domain=comic.naver.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://m.dongmanmanhua.cn/" target="_blank" title="Dongman"><img src="https://www.google.com/s2/favicons?domain=dongmanmanhua.cn&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.lalatoon.com/" target="_blank" title="Lalatoon"><img src="https://www.google.com/s2/favicons?domain=lalatoon.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://honeytoon.com/" target="_blank" title="Honeytoon"><img src="https://www.google.com/s2/favicons?domain=honeytoon.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://global.toptoon.com/" target="_blank" title="Toptoon"><img src="https://www.google.com/s2/favicons?domain=global.toptoon.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"><img src="https://flagcdn.com/w40/kr.png" srcset="https://flagcdn.com/w80/kr.png 2x" class="flag-img" alt="KR" title="KR" loading="lazy"><img src="https://flagcdn.com/w40/cn.png" srcset="https://flagcdn.com/w80/cn.png 2x" class="flag-img" alt="CN" title="CN" loading="lazy"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" class="flag-img" alt="FR" title="FR" loading="lazy"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" class="flag-img" alt="DE" title="DE" loading="lazy"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" class="flag-img" alt="ES" title="ES" loading="lazy"><img src="https://flagcdn.com/w40/pt.png" srcset="https://flagcdn.com/w80/pt.png 2x" class="flag-img" alt="PT" title="PT" loading="lazy"><img src="https://flagcdn.com/w40/it.png" srcset="https://flagcdn.com/w80/it.png 2x" class="flag-img" alt="IT" title="IT" loading="lazy"><img src="https://flagcdn.com/w40/th.png" srcset="https://flagcdn.com/w80/th.png 2x" class="flag-img" alt="TH" title="TH" loading="lazy"><img src="https://flagcdn.com/w40/id.png" srcset="https://flagcdn.com/w80/id.png 2x" class="flag-img" alt="ID" title="ID" loading="lazy"><img src="https://flagcdn.com/w40/vn.png" srcset="https://flagcdn.com/w80/vn.png 2x" class="flag-img" alt="VN" title="VN" loading="lazy"><img src="https://flagcdn.com/w40/sa.png" srcset="https://flagcdn.com/w80/sa.png 2x" class="flag-img" alt="SA" title="SA" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Comprehensive downloader supporting a massive list of comic sites including Tapas, Webtoon, Naver, and more in multiple languages.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594644-tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Tapas,Webtoon,Mangatoon,Toomics,Naver,Dongmanmanhua,Lalatoon,Honeytoon,Toptoon_Ripper(All_Languages)" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://play-lh.googleusercontent.com/EY_X2EIcNjp6ugIGzz-2g6H-OXfJlA78ompF5sbOc52e1YYy3_rrmBnB_5zhEOIKUa0gwV1rDC3yGt9WBw4e3w" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Viz/Shonen Jump Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://www.viz.com/" target="_blank" title="Viz"><img src="https://www.google.com/s2/favicons?domain=viz.com&sz=32" class="site-icon" alt="Site"></a>
+                                            <a href="https://www.shonenjump.com/" target="_blank" title="Shonen Jump"><img src="https://www.google.com/s2/favicons?domain=shonenjump.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Extracts and downloads high-quality images directly from Viz and Shonen Jump.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594590-viz-shonen-jump-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/viz-shonen-jump-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/VizShonen_Jump_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8nvm1mB3kgjFXbVGloI8ausuojP0rlgG1vGoN5Eo38w&s=10" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Toptoon English Only Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://global.toptoon.com/" target="_blank" title="Toptoon"><img src="https://www.google.com/s2/favicons?domain=global.toptoon.com&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Dedicated tool for downloading translated chapters from the English version of Toptoon quickly and easily.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594987-toptoon-english-only-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/toptoon-english-only-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Toptoon_English_Only_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAb1BMVEVQTP9NSf9IRP9GQf9DPv9PS/89OP9nZP+fnf+9vP/Kyf9KRv9BPP+jof/w7/////98ev/39/+op/+Bfv9yb/+3tf/d3P9XU/83Mf+jov/X1v+xsP/i4f+Oi//q6f9UUP94df+Egv+Xlf9gXf/Ozf883V2DAAAA6ElEQVR4AY2SBZbFIAxFm0BTIfV+d9n/Gufx3eDMO4JciCf/FLGx1jB9k5Qly4uyLPJMOH1nTqu6uamu1L0ybbvGq6uxYmn1yaRvoHIwAo0T7Ht5/PNsOlN38UXWlKC3v24AK+b0DG6+aJrBXbYKP8u53xlR8cHYEX7V2+EKH4nAdIVn60F100AVA8oWRq1n2Hj1+WXZCvzvsNnDllk179pR4g5YLexL9wEPLuEjVoFVbj505DiMmo0GFE0lUoRA+fa38gULz+GWNTkHmw3fEhiTi070e8CkPSMKExhNp9QvODjUKYNF9Qeipxuq30BSZwAAAABJRU5ErkJggg==" alt="Icon" class="card-icon">
+                                <div class="title-container">
+                                    <h3>Coolmic Chapter Ripper</h3>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Supported Sites:</span>
+                                        <div class="site-icons">
+                                            <a href="https://coolmic.me/" target="_blank" title="Coolmic"><img src="https://www.google.com/s2/favicons?domain=coolmic.me&sz=32" class="site-icon" alt="Site"></a>
+                                        </div>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Languages:</span>
+                                        <div class="flags"><img src="https://flagcdn.com/w40/us.png" srcset="https://flagcdn.com/w80/us.png 2x" class="flag-img" alt="US" title="US" loading="lazy"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Downloads comic chapters seamlessly from Coolmic, keeping the original image quality and formatting intact.
+                            </p>
+                            <div class="links">
+                                <div class="links-container">
+                                    <a href="https://greasyfork.org/en/scripts/594978-coolmic-chapter-ripper" target="_blank">
+                                        <img src="https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png" alt="GreasyFork" class="link-icon" style="filter: invert(1) brightness(2);">
+                                        GreasyFork
+                                    </a>
+                                    <a href="https://gitlab.com/devjk6918/coolmic-chapter-ripper" target="_blank">
+                                        <svg class="link-icon" viewBox="0 0 24 24" fill="#FC6D26"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                                        GitLab
+                                    </a>
+                                    <a href="https://openuserjs.org/scripts/ozler/Coolmic_Chapter_Ripper" target="_blank">
+                                        <img src="https://www.google.com/s2/favicons?domain=openuserjs.org&sz=64" alt="OpenUserJS" class="link-icon">
+                                        OpenUserJS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="feedback-view" class="view-section">
+        <div class="feedback-wrapper">
+            <header class="page-header">
+                <h1 style="font-size: clamp(1.5rem, 4vw, 3rem); margin: 0 auto; text-align: center; line-height: 1.3;">Please Tell Us How We Can Improve.</h1>
+                <p>Submit Your Feedback</p>
+            </header>
+
+            <section class="feedback-section">
+                <form id="feedbackForm">
+                    
+                    <div class="form-group">
+                        <label for="repoSelect">Which repository is this about?</label>
+                        <select id="repoSelect">
+                            <option value="" disabled selected>Select an option...</option>
+                            <option data-gitlab="" value="Universal-Image-Downloader-Extension-Firefox">Universal Image Downloader (Extension)</option>
+                            <option data-gitlab="universal-image-downloader-userscript" value="Universal-Image-Downloader-Userscript">Universal Image Downloader (Userscript)</option>
+                            <option data-gitlab="" value="Aggregator-Comic-Site-Chapter-Downloader-Extension-Atsumaru-Mangadot-MangaGo">Atsumaru Mangadot Mangago Downloader (Extension)</option>
+                            <option data-gitlab="aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago" value="Aggregator-Comic-Site-Chapter-Downloader-Atsumaru-Mangadot-MangaGo">Aggregator Comic Site Chapter Downloader(Atsumaru, Mangadot, MangaGo) (Userscript)</option>
+                            <option data-gitlab="manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper" value="MangaPlus-Bookwalker-MangaUP-MangaMillion-GanganOnline-Zebcrack-Ripper-New-Version">Manga Plus,Bookwalker,Manga-UP,Manga Million,Gangan Online & Zebcrack Ripper</option>
+                            <option data-gitlab="mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp" value="MangaPlaza-ComicCmoA-And-Yomiho C'moA-Chapter-Ripper-ENG-JP-Userscript">MangaPlaza Comic C'moA & Yomiho C'moA Ripper(ENG,JP)</option>
+                            <option data-gitlab="manta-comic-ripper-eng-es-fr" value="Manta-Comic-Ripper-ENG-ES-FR-Userscript">Manta Comic Ripper(ENG,ES,FR)</option>
+                            <option data-gitlab="tappytoon-ripper-eng-fr-de" value="Tappytoon-Chapter-Ripper-ENG-FR-DE-Userscript">Tappytoon Ripper(ENG,FR,DE)</option>
+                            <option data-gitlab="webcomics-chapter-ripper-all-languages" value="WebComics-Chapter-Ripper-All-Languages-Userscript">WebComics Chapter Ripper(All Languages)</option>
+                            <option data-gitlab="webnovel-comic-ripper-all-languages" value="Webnovel-Comic-Ripper-All-Languages-Userscript">Webnovel Comic Ripper(All Languages)</option>
+                            <option data-gitlab="ridibooks-comic-ripper" value="Ridibooks-Chapter-Downloader-Userscript">Ridibooks Comic Ripper</option>
+                            <option data-gitlab="omoi-azuki-chapter-ripper" value="Omoi-Azuki-Ripper-Userscript">Omoi/Azuki Chapter Ripper</option>
+                            <option data-gitlab="comikey-ripper-manga-webtoon-eng-br" value="Comikey-Manga-And-Webtoon-Ripper-Eng-Br">Comikey Ripper (Manga & Webtoon) ENG,BR</option>
+                            <option data-gitlab="kakao-page-comic-ripper" value="Kakao-Page-Comic-Ripper-Userscript">Kakao Page Comic Ripper</option>
+                            <option data-gitlab="all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages" value="All-Lezhin-Beltoon-Bomtoon-KakaoWebtoon-MrBlue-ToptoonJP-Ripper-All-Languages">All Lezhin,Beltoon,Bomtoon,Kakao-Webtoon,Mr-Blue,Toptoon(JP) Ripper(All Languages)</option>
+                            <option data-gitlab="kuaikan-manhua-ripper" value="KuaiKan-Manhua-Ripper">KuaiKan Manhua Ripper</option>
+                            <option data-gitlab="j-novel-club-chapter-ripper-eng-fr-de" value="J-Novel-Club-Chapter-Ripper-ENG-FR-DE-Userscript">J-Novel Club Chapter Ripper(ENG,FR,DE)</option>
+                            <option data-gitlab="inkr-comics-ripper" value="Inkr-Comic-Ripper">Inkr Comics Ripper</option>
+                            <option data-gitlab="tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages" value="Tapas-Webtoon-Mangatoon-Toomics-Naver-Dongmanmanhua-Lalatoon-Honeytoon-Toptoon-Ripper-All-Languages">Tapas,Webtoon,Mangatoon,Toomics,Naver,Dongmanmanhua,Lalatoon,Honeytoon,Toptoon Ripper(All Languages)</option>
+                            <option data-gitlab="viz-shonen-jump-ripper" value="Viz-Shonen-Jump-Ripper">Viz/Shonen Jump Ripper</option>
+                            <option data-gitlab="toptoon-english-only-ripper" value="Toptoon-English-Only-Ripper">Toptoon English Only Ripper</option>
+                            <option data-gitlab="coolmic-chapter-ripper" value="Coolmic-Chapter-Ripper">Coolmic Chapter Ripper</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categorySelect">Type</label>
+                        <select id="categorySelect">
+                            <option value="issue">Issue</option>
+                            <option value="incident">Incident</option>
+                            <option value="task">Task</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Experience Rating</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackTitle">Title</label>
+                        <input type="text" id="feedbackTitle" placeholder="e.g. Feature request or Bug with images">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackBody">Comment</label>
+                        <textarea id="feedbackBody" rows="4" placeholder="Leave a comment"></textarea>
+                    </div>
+
+                    <div style="padding: 24px 0; display: flex; flex-direction: column; gap: 16px;">
+                        <button type="button" id="edgeBtn" class="feedback-btn" style="display: none;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="Edge" style="width:20px;height:20px;margin-right:8px;">
+                            Login with Edge Add-ons To Post Feedback
+                        </button>
+                        
+                        <button type="button" id="firefoxGreasyforkBtn" class="feedback-btn" style="display: none;">
+                            <img id="ffGfIcon" src="" alt="Icon" style="width:20px;height:20px;margin-right:8px;display:none;">
+                            <span id="ffGfText">Login with Add-ons</span>
+                        </button>
+
+                        <button type="submit" class="feedback-btn">
+                            <svg class="gitlab-icon" viewBox="0 0 24 24" style="width:20px;height:20px;margin-right:8px;fill:#FC6D26;"><path d="M23.6004 9.5927l-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"></path></svg>
+                            Login With GitLab to Post Feedback
+                        </button>
+                    </div>
+                    
+                    <p class="note">
+                        <strong>GitLab:</strong> Opens a new Issue with pre-filled text.<br>
+                        <strong>Store / GreasyFork:</strong> Redirects to the respective feedback page.
+                    </p>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <div id="about-view" class="view-section">
+        <header class="page-header">
+            <h1>About Us</h1>
+            <p>The story behind these projects.</p>
+        </header>
+
+        <div class="about-container">
+            <div class="about-text">
+                <p>
+                    Hi, my name is <strong>Subhadeep Dutta</strong>. I am 22 years old, from India, and the sole developer of these userscripts and extensions. I am not a professional developer; I simply do this as a hobby.
+                </p>
+                <p>
+                    I developed the Firefox extension because, after Firefox stopped supporting Chrome extensions, there wasn't a good image downloader available in the Firefox store comparable to Chrome's "Image Downloader". So, I decided to build it myself. I believe it is significantly better than the Chrome alternative and fetches many more images that even the Chrome version misses.
+                </p>
+                <p>
+                    As for the userscripts, I love reading manga, manhwa, manhua, and comics. Many people want to download images from comic reading sites, so I built these tools for them. I focus on sites that I personally use and those not currently supported on GreasyFork.
+                </p>
+                <p>
+                    I am aware there may still be a few bugs and issues. I plan to fix these in the future. To keep me motivated, please consider making a small donation and sharing your valuable feedback.
+                </p>
+                <p>
+                    Thank you for your support!
+                </p>
+            </div>
+
+            <div class="action-section">
+                <h3>Support My Work</h3>
+                <div class="btn-group">
+                    <a href="https://buymeacoffee.com/ozler" target="_blank" class="action-btn">
+                         <svg viewBox="0 0 16 16" width="18" height="18" style="margin-right:10px; fill:currentColor"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"></path></svg>
+                        Donate
+                    </a>
+                    <button onclick="switchView('feedback')" class="action-btn">
+                        Leave Feedback
+                    </button>
+                    <button onclick="switchView('projects')" class="action-btn">
+                        View Projects
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="social-links">
+            <a href="mailto:devjk6918@gmail.com">Email</a>
+            <a href="https://gitlab.com/devjk6918" target="_blank">GitLab</a>
+            <a href="https://greasyfork.org/en/users/1553223-ozler365" target="_blank">GreasyFork</a>
+            <a href="https://addons.mozilla.org/en-US/firefox/user/19010700/" target="_blank">Firefox</a>
+            <a href="https://www.instagram.com/weebtopia_official" target="_blank">Instagram</a>
+            <a href="https://x.com/theweebtopia" target="_blank">X</a>
+            <a href="https://www.reddit.com/u/False_Month1541" target="_blank">Reddit</a>
+            <a href="https://discord.gg/CJ2GA8vqd" target="_blank">Discord</a>
+            <a href="https://t.me/subhadeepdutta2004" target="_blank">Telegram</a>
+            <a href="https://www.threads.com/@weebtopiaofficial" target="_blank">Threads</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            © 2026-27 OZLER. All works licensed under <a href="https://spdx.org/licenses/MIT.html" target="_blank">MIT License</a>.
+        </p>
+    </footer>
+
+</div>
+
+<script>
+// --- GLOBAL VARS & CONFIG ---
+const sectionBackgrounds = {
+    'home': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop',
+    'projects': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
+    'feedback': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop',
+    'about': 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2070&auto=format&fit=crop'
+};
+
+const extensionURLs = {
+    'Universal-Image-Downloader-Extension-Firefox': {
+        firefox: 'https://addons.mozilla.org/en-US/firefox/addon/universal-image-downloader/',
+        edge: 'https://microsoftedge.microsoft.com/addons/detail/universal-image-downloade/dmendeegjofenpfmgfipnnalebefonhd',
+        greasyfork: null
+    },
+    'Universal-Image-Downloader-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/561884-universal-image-downloader/feedback' },
+    'Aggregator-Comic-Site-Chapter-Downloader-Extension-Atsumaru-Mangadot-MangaGo': {
+        firefox: 'https://addons.mozilla.org/en-US/android/addon/atsumangadotmangagodownloader/',
+        edge: 'https://microsoftedge.microsoft.com/addons/detail/atsumaru-mangadot-mangago/bngfpihjnbbchghmdbmdfefjejjddnhe',
+        greasyfork: null
+    },
+    'Aggregator-Comic-Site-Chapter-Downloader-Atsumaru-Mangadot-MangaGo': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/595572-aggregator-comic-site-chapter-downloader-atsumaru-mangadot-mangago/feedback' },
+    'MangaPlus-Bookwalker-MangaUP-MangaMillion-GanganOnline-Zebcrack-Ripper-New-Version': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594343-manga-plus-bookwalker-manga-up-manga-million-gangan-online-zebcrack-ripper/feedback' },
+    "MangaPlaza-ComicCmoA-And-Yomiho C'moA-Chapter-Ripper-ENG-JP-Userscript": { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/560991-mangaplaza-comic-c-moa-yomiho-c-moa-ripper-eng-jp/feedback' },
+    'Manta-Comic-Ripper-ENG-ES-FR-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562775-manta-comic-ripper-eng-es-fr/feedback' },
+    'Tappytoon-Chapter-Ripper-ENG-FR-DE-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562783-tappytoon-ripper-eng-fr-de/feedback' },
+    'WebComics-Chapter-Ripper-All-Languages-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562787-webcomics-chapter-ripper-all-languages/feedback' },
+    'Webnovel-Comic-Ripper-All-Languages-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562799-webnovel-comic-ripper-all-languages/feedback' },
+    'Ridibooks-Chapter-Downloader-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562807-ridibooks-comic-ripper/feedback' },
+    'Omoi-Azuki-Ripper-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562914-omoi-azuki-chapter-ripper/feedback' },
+    'Comikey-Manga-And-Webtoon-Ripper-Eng-Br': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/562935-comikey-ripper-manga-webtoon-eng-br/feedback' },
+    'Kakao-Page-Comic-Ripper-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/563056-kakao-page-comic-ripper/feedback' },
+    'All-Lezhin-Beltoon-Bomtoon-KakaoWebtoon-MrBlue-ToptoonJP-Ripper-All-Languages': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/563063-all-lezhin-beltoon-bomtoon-kakao-webtoon-mr-blue-toptoon-jp-ripper-all-languages/feedback' },
+    'KuaiKan-Manhua-Ripper': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594974-kuaikan-manhua-ripper/feedback' },
+    'J-Novel-Club-Chapter-Ripper-ENG-FR-DE-Userscript': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/565173-j-novel-club-chapter-ripper-eng-fr-de/feedback' },
+    'Inkr-Comic-Ripper': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/569825-inkr-comics-ripper/feedback' },
+    'Tapas-Webtoon-Mangatoon-Toomics-Naver-Dongmanmanhua-Lalatoon-Honeytoon-Toptoon-Ripper-All-Languages': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594644-tapas-webtoon-mangatoon-toomics-naver-dongmanmanhua-lalatoon-honeytoon-toptoon-ripper-all-languages/feedback' },
+    'Viz-Shonen-Jump-Ripper': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594590-viz-shonen-jump-ripper/feedback' },
+    'Toptoon-English-Only-Ripper': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594987-toptoon-english-only-ripper/feedback' },
+    'Coolmic-Chapter-Ripper': { firefox: null, edge: null, greasyfork: 'https://greasyfork.org/en/scripts/594978-coolmic-chapter-ripper/feedback' }
+};
+
+let selectedRating = 0;
+
+// --- INITIALIZATION BLOCK (Merged for Performance) ---
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. Routing Setup
+    handleRouting();
+    window.addEventListener('hashchange', handleRouting);
+
+    // 2. Slider controls
+    initSliders();
+
+    // 3. Star Rating Logic
+    const stars = document.querySelectorAll('.star');
+    const starRating = document.getElementById('starRating');
+    
+    function updateStars(rating) {
+        stars.forEach((star, index) => {
+            if (index < rating) star.classList.add('active');
+            else star.classList.remove('active');
+        });
+    }
+
+    if (stars.length) {
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-value'));
+                updateStars(selectedRating);
+            });
+            star.addEventListener('mouseenter', function() {
+                updateStars(parseInt(this.getAttribute('data-value')));
+            });
+        });
+        if (starRating) starRating.addEventListener('mouseleave', () => updateStars(selectedRating));
+    }
+
+    // 4. Feedback Form UI Logic
+    const repoSelect = document.getElementById('repoSelect');
+    const ffGfBtn = document.getElementById('firefoxGreasyforkBtn');
+    const edgeBtn = document.getElementById('edgeBtn');
+    const ffGfIcon = document.getElementById('ffGfIcon');
+    const ffGfText = document.getElementById('ffGfText');
+    const feedbackTitle = document.getElementById('feedbackTitle');
+    const feedbackBody = document.getElementById('feedbackBody');
+    const categorySelect = document.getElementById('categorySelect');
+    const form = document.getElementById('feedbackForm');
+
+    if (repoSelect) {
+        repoSelect.addEventListener('change', function() {
+            const urls = extensionURLs[this.value];
+            if (edgeBtn) edgeBtn.style.display = (urls && urls.edge) ? 'inline-flex' : 'none';
+            if (ffGfBtn) {
+                if (urls && (urls.firefox || urls.greasyfork)) {
+                    ffGfBtn.style.display = 'inline-flex';
+                    if (urls.firefox) {
+                        if (ffGfIcon) {
+                            ffGfIcon.src = "https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg";
+                            ffGfIcon.style.display = "inline-block";
+                            ffGfIcon.style.filter = "none";
+                        }
+                        if (ffGfText) ffGfText.textContent = "Login with Firefox Add-ons To Post Feedback";
+                    } else if (urls.greasyfork) {
+                        if (ffGfIcon) {
+                            ffGfIcon.src = "https://greasyfork.org/vite/assets/blacklogo96-CxYTSM_T.png";
+                            ffGfIcon.style.display = "inline-block";
+                            ffGfIcon.style.filter = "invert(1) brightness(2)";
+                        }
+                        if (ffGfText) ffGfText.textContent = "Login with GreasyFork To Post Feedback";
+                    }
+                } else {
+                    ffGfBtn.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    if (edgeBtn) {
+        edgeBtn.addEventListener('click', function() {
+            const urls = extensionURLs[repoSelect.value];
+            if (urls && urls.edge) window.open(urls.edge, '_blank');
+        });
+    }
+
+    if (ffGfBtn) {
+        ffGfBtn.addEventListener('click', function() {
+            const repo = repoSelect.value;
+            if (!repo) return alert('Please select an extension/script.');
+            
+            const urls = extensionURLs[repo];
+            let targetURL = urls.firefox || urls.greasyfork;
+            
+            if (targetURL) {
+                let ratingStr = selectedRating < 3 ? 'bad' : (selectedRating === 3 ? 'ok' : 'good');
+                let textToCopy = feedbackTitle.value ? `**${feedbackTitle.value}**\n\n` : '';
+                textToCopy += feedbackBody.value;
+                if (selectedRating > 0) textToCopy += `\n\nRating: ${ratingStr} (${selectedRating}/5 stars)`;
+                
+                if (textToCopy.trim()) {
+                    navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+                        alert("Your text has been copied to your clipboard!\n\nJust press Ctrl+V to paste it on the next page.");
+                    }).catch(() => {
+                        // Ignore clipboard failure silently
+                    });
+                }
+                
+                window.open(targetURL, '_blank');
+            }
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const repo = repoSelect.value;
+            if(!repo) return alert("Please select an extension/script.");
+            
+            const gitlabRepo = repoSelect.selectedOptions[0].dataset.gitlab;
+            if (!gitlabRepo) return alert("The GitLab link for this item hasn't been added yet.");
+            
+            const issueType = categorySelect.value;
+            const description = feedbackBody.value;
+            const url = `https://gitlab.com/devjk6918/${gitlabRepo}/-/issues/new?issue[title]=${encodeURIComponent(feedbackTitle.value)}&issue[description]=${encodeURIComponent(description)}&issue[issue_type]=${issueType}`;
+            window.open(url, '_blank');
+        });
+    }
+});
+
+// --- CORE FUNCTIONS ---
+function toggleMobileMenu() {
+    document.getElementById('mobileNavMenu')?.classList.toggle('active');
+    document.getElementById('mobileNavOverlay')?.classList.toggle('active');
+    document.body.style.overflow = document.getElementById('mobileNavMenu')?.classList.contains('active') ? 'hidden' : '';
+}
+
+function closeMobileMenu() {
+    document.getElementById('mobileNavMenu')?.classList.remove('active');
+    document.getElementById('mobileNavOverlay')?.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function switchViewMobile(viewName) { switchView(viewName); closeMobileMenu(); }
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
+
+function switchView(viewName) {
+    if (sectionBackgrounds[viewName]) document.body.style.backgroundImage = `url('${sectionBackgrounds[viewName]}')`;
+    
+    ['home', 'projects', 'feedback', 'about'].forEach(v => {
+        document.getElementById(v + '-view')?.classList.toggle('active-view', v === viewName);
+        document.getElementById('nav-' + v)?.classList.toggle('active', v === viewName);
+        document.getElementById('mobile-nav-' + v)?.classList.toggle('active', v === viewName);
+    });
+
+    window.scrollTo(0, 0);
+    const hashMap = { 'home': '#/home', 'projects': '#/repositories', 'feedback': '#/issues', 'about': '#/profile' };
+    history.pushState(null, '', hashMap[viewName] || '#/home');
+}
+
+function handleRouting() {
+    const routeMap = {
+        '#/home': 'home', '#home': 'home', '#/repositories': 'projects', '#repositories': 'projects',
+        '#/issues': 'feedback', '#issues': 'feedback', '#/profile': 'about', '#profile': 'about',
+        '': 'home', '#': 'home', '#/': 'home'
+    };
+    switchView(routeMap[window.location.hash] || 'home');
+}
+
+function updateSliderCount(sliderId) {
+    const slider = document.getElementById(sliderId);
+    const counter = document.querySelector(`.slider-nav[data-slider="${sliderId}"] .slider-count`);
+    if (!slider || !counter) return;
+    const cards = Array.from(slider.querySelectorAll('.card'));
+    const idx = cards.findIndex(c => c.classList.contains('active'));
+    counter.innerHTML = `<b>${idx + 1}</b> / ${cards.length}`;
+}
+
+function initSliders() {
+    document.querySelectorAll('.slider').forEach(sl => updateSliderCount(sl.id));
+}
+
+function slide(sliderId, direction) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+    const cards = slider.querySelectorAll('.card');
+    if (!cards.length) return;
+
+    let currentIndex = Array.from(cards).findIndex(c => c.classList.contains('active'));
+    if (currentIndex !== -1) cards[currentIndex].classList.remove('active');
+    else currentIndex = 0;
+
+    cards[(currentIndex + direction + cards.length) % cards.length].classList.add('active');
+    updateSliderCount(sliderId);
+}
+</script>
+
+</body>
+</html>
